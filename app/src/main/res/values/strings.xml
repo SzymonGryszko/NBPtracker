@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NBPtracker</string>
     <string name="pln">PLN</string>
+    <string name="usd">USD</string>
+    <string name="check">CHECK</string>
+    <string name="to">TO</string>
 </resources>
