@@ -23,10 +23,10 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/topRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:id="@+id/topRow">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -63,12 +63,12 @@
                 android:layout_centerVertical="true">
 
                 <Button
+                    android:id="@+id/button_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:id="@+id/button_check"
-                    android:text="@string/check"
-                    android:background="@drawable/grey_rounded_button"/>
+                    android:background="@drawable/grey_rounded_button"
+                    android:text="@string/check" />
 
 
             </RelativeLayout>
@@ -77,22 +77,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="5dp">
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/amount">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3,94"
+                    android:textColor="@color/lightred"
+                    android:textSize="40sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/amount"
+                    android:layout_centerHorizontal="true">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginTop="15dp"
-                    android:text="3,94"
-                    android:textColor="@color/lightred"
-                    android:textSize="40sp" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:gravity="bottom"
+                    android:text="07/07/2020"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                </RelativeLayout>
 
                 <ProgressBar
                     android:id="@+id/progress_bar_exchange"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -110,7 +133,7 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>
