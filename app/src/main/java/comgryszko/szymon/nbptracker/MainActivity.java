@@ -7,10 +7,20 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.List;
 import java.util.Objects;
 
+import comgryszko.szymon.nbptracker.api.CurrencyExchangeRates;
+import comgryszko.szymon.nbptracker.api.NBPApi;
 import comgryszko.szymon.nbptracker.utils.FragmentPagerAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         int viewPagerPosition = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_POSITION);
         setViewPager(viewPagerPosition);
+
+
     }
 
     @Override
@@ -42,4 +55,5 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(R.drawable.ic_money);
         Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(R.drawable.ic_gold);
     }
+
 }
