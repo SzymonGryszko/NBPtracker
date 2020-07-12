@@ -3,10 +3,14 @@ package comgryszko.szymon.nbptracker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +19,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import comgryszko.szymon.nbptracker.api.CurrencyExchangeRates;
@@ -34,6 +47,7 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     private static final String BASE_URL_EXCHANGERATE = "https://api.nbp.pl/api/exchangerates/rates/a/";
     private TextView mRate, mDate, mForeignCurrency;
     private ProgressBar mProgressBar;
+    private LineChart lineChart;
     private static final String TAG = "ExchangeRateFragment";
 
     @Nullable
@@ -43,6 +57,7 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
 
         mProgressBar = view.findViewById(R.id.progress_bar_exchange);
         mProgressBar.setVisibility(View.INVISIBLE);
+        lineChart = view.findViewById(R.id.lineChart);
         mRate = view.findViewById(R.id.rate);
         mDate = view.findViewById(R.id.date);
         mForeignCurrency = view.findViewById(R.id.foreignCurrency);
@@ -119,10 +134,78 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     public void onResponse(Call<CurrencyExchangeRates> call, Response<CurrencyExchangeRates> response) {
         Log.d(TAG, "onResponse: " + response.message() + response.body());
         int ratesListSize = response.body().getRates().size();
+        List<CurrencyRate> ratesList = response.body().getRates();
         CurrencyRate currencyRate = response.body().getRates().get(ratesListSize - 1);
         mRate.setText(String.valueOf(currencyRate.getMid()));
         mDate.setText(currencyRate.getEffectiveDate());
         mProgressBar.setVisibility(View.INVISIBLE);
+        initGraph(ratesListSize, ratesList);
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
+    }
+
+    private void initGraph(int ratesListSize, List<CurrencyRate> ratesList) {
+        ArrayList<Entry> values = new ArrayList<>();
+
+        for (int i = 0; i < ratesListSize; i++) {
+            values.add(new Entry((float) i, (float) ratesList.get(i).getMid()
+//                    TODO:represent dates on chart
+
+            ));
+        }
+
+        LineDataSet set1;
+
+        if (lineChart.getData() != null &&
+                lineChart.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+            set1.setValues(values);
+            set1.notifyDataSetChanged();
+            lineChart.getData().notifyDataChanged();
+            lineChart.notifyDataSetChanged();
+        } else {
+            set1 = new LineDataSet(values, "Rates");
+            set1.setDrawIcons(false);
+
+            // draw dashed line
+            set1.enableDashedLine(10f, 0f, 0f);
+
+            // black lines and points
+            set1.setColor(Color.BLACK);
+            set1.setCircleColor(Color.BLACK);
+
+            // line thickness and point size
+            set1.setLineWidth(1f);
+            set1.setCircleRadius(1f);
+
+            // draw points as solid circles
+            set1.setDrawCircleHole(false);
+
+            // text size of values
+            set1.setValueTextSize(8f);
+
+            // set the filled area
+            set1.setDrawFilled(true);
+            set1.setFillFormatter(new IFillFormatter() {
+                @Override
+                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                    return lineChart.getAxisLeft().getAxisMinimum();
+                }
+            });
+
+            if (Utils.getSDKInt() >= 18) {
+                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_red);
+                set1.setFillDrawable(drawable);
+            } else {
+                set1.setFillColor(Color.BLACK);
+            }
+
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+            LineData data = new LineData(dataSets);
+            lineChart.setData(data);
+            lineChart.getData().setHighlightEnabled(false);
+        }
     }
 
     @Override
