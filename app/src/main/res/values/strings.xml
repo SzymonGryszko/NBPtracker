@@ -4,4 +4,5 @@
     <string name="usd">USD</string>
     <string name="check">CHECK</string>
     <string name="to">TO</string>
+    <string name="unableToDownload">Unable to download data</string>
 </resources>

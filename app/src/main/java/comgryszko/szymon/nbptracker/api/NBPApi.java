@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 
 public interface NBPApi {
 
-    @GET("api/exchangerates/rates/a/{currency}/?format=json")
+    @GET("{currency}/last/30/?format=json")
     Call<CurrencyExchangeRates>getRate(@Path("currency") String currency);
 
 }

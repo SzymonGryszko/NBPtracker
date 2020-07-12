@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        android:layout_weight="3"
+        android:layout_weight="3.3"
         android:background="@drawable/white_rounded_background"
         android:orientation="horizontal"
         android:padding="5dp">
@@ -26,22 +26,25 @@
                 android:id="@+id/topRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
+                    android:id="@+id/foreignCurrency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="15dp"
                     android:text="@string/usd"
+                    android:padding="5dp"
+                    android:background="@drawable/lightgrey_rounded_background"
                     android:textColor="@color/black"
-                    android:textSize="40sp" />
+                    android:textSize="50sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_centerVertical="true"
                     android:text="@string/to"
                     android:textSize="40sp" />
 
@@ -49,28 +52,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="40dp"
                     android:text="@string/pln"
                     android:textColor="@color/black"
-                    android:textSize="40sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true">
-
-                <Button
-                    android:id="@+id/button_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/grey_rounded_button"
-                    android:text="@string/check" />
-
-
+                    android:textSize="50sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -80,18 +66,19 @@
                 android:layout_marginBottom="5dp">
 
                 <RelativeLayout
+                    android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/amount">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3,94"
-                    android:textColor="@color/lightred"
-                    android:textSize="40sp"
-                    android:id="@+id/rate"/>
+                    android:layout_centerHorizontal="true">
+
+                    <TextView
+                        android:id="@+id/rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3,94"
+                        android:textColor="@color/lightred"
+                        android:textSize="50sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -99,17 +86,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/amount"
                     android:layout_centerHorizontal="true">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="5dp"
-                    android:gravity="bottom"
-                    android:text="07/07/2020"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:id="@+id/date"/>
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:gravity="bottom"
+                        android:text="07/07/2020"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
 
@@ -128,8 +116,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:layout_weight="2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1.7"
         android:background="@drawable/white_rounded_background"
         android:padding="5dp">
 

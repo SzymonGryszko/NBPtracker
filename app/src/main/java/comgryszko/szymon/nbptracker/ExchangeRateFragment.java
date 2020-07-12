@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,8 +31,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ExchangeRateFragment extends Fragment implements Callback<CurrencyExchangeRates> {
 
-    public static final String BASE_URL_EXCHANGERATE = "https://api.nbp.pl/";
-    private TextView mRate, mDate;
+    private static final String BASE_URL_EXCHANGERATE = "https://api.nbp.pl/api/exchangerates/rates/a/";
+    private TextView mRate, mDate, mForeignCurrency;
     private ProgressBar mProgressBar;
     private static final String TAG = "ExchangeRateFragment";
 
@@ -39,19 +41,60 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exchange_rate, container, false);
 
-        mRate = view.findViewById(R.id.rate);
-        mDate = view.findViewById(R.id.date);
         mProgressBar = view.findViewById(R.id.progress_bar_exchange);
         mProgressBar.setVisibility(View.INVISIBLE);
-
-
-        getRateFromNBPApi();
+        mRate = view.findViewById(R.id.rate);
+        mDate = view.findViewById(R.id.date);
+        mForeignCurrency = view.findViewById(R.id.foreignCurrency);
+        mForeignCurrency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initCurrencyDialog();
+            }
+        });
+        getRateFromNBPApi(String.valueOf(mForeignCurrency.getText()));
 
 
         return view;
     }
 
-    private void getRateFromNBPApi() {
+    private void initCurrencyDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Select currency");
+        String[] currency = {"USD", "EUR", "GBP", "CHF", "RUB"};
+        builder.setItems(currency, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        mForeignCurrency.setText(currency[0]);
+                        getRateFromNBPApi(currency[0]);
+                        break;
+                    case 1:
+                        mForeignCurrency.setText(currency[1]);
+                        getRateFromNBPApi(currency[1]);
+                        break;
+                    case 2:
+                        mForeignCurrency.setText(currency[2]);
+                        getRateFromNBPApi(currency[2]);
+                        break;
+                    case 3:
+                        mForeignCurrency.setText(currency[3]);
+                        getRateFromNBPApi(currency[3]);
+                        break;
+                    case 4:
+                        mForeignCurrency.setText(currency[4]);
+                        getRateFromNBPApi(currency[4]);
+                        break;
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void getRateFromNBPApi(String currency) {
         mProgressBar.setVisibility(View.VISIBLE);
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -64,14 +107,19 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
 
         NBPApi nbpApi = retrofitExchangerate.create(NBPApi.class);
 
-        Call<CurrencyExchangeRates> callRates = nbpApi.getRate("usd");
+        enqueueCall(nbpApi, currency.toLowerCase());
+    }
+
+    private void enqueueCall(NBPApi nbpApi, String currency) {
+        Call<CurrencyExchangeRates> callRates = nbpApi.getRate(currency.toLowerCase());
         callRates.enqueue(this);
     }
 
     @Override
     public void onResponse(Call<CurrencyExchangeRates> call, Response<CurrencyExchangeRates> response) {
         Log.d(TAG, "onResponse: " + response.message() + response.body());
-        CurrencyRate currencyRate = response.body().getRates().get(0);
+        int ratesListSize = response.body().getRates().size();
+        CurrencyRate currencyRate = response.body().getRates().get(ratesListSize - 1);
         mRate.setText(String.valueOf(currencyRate.getMid()));
         mDate.setText(currencyRate.getEffectiveDate());
         mProgressBar.setVisibility(View.INVISIBLE);
@@ -81,5 +129,8 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     public void onFailure(Call<CurrencyExchangeRates> call, Throwable t) {
         Log.d(TAG, "onFailure: " + t.getMessage());
         mProgressBar.setVisibility(View.INVISIBLE);
+        mRate.setTextSize(12);
+        mRate.setText(R.string.unableToDownload);
+        mDate.setText(R.string.unableToDownload);
     }
 }
