@@ -5,4 +5,6 @@
     <string name="check">CHECK</string>
     <string name="to">TO</string>
     <string name="unableToDownload">Unable to download data</string>
+    <string name="pln_g">PLN/g</string>
+    <string name="unable_to_download_data">Unable to download data</string>
 </resources>

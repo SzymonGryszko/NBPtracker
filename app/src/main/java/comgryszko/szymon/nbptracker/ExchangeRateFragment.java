@@ -20,10 +20,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
@@ -126,8 +130,8 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     }
 
     private void enqueueCall(NBPApi nbpApi, String currency) {
-        Call<CurrencyExchangeRates> callRates = nbpApi.getRate(currency.toLowerCase());
-        callRates.enqueue(this);
+        Call<CurrencyExchangeRates> callExchangeRates = nbpApi.getCurrencyRate(currency.toLowerCase());
+        callExchangeRates.enqueue(this);
     }
 
     @Override
@@ -199,6 +203,16 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
             } else {
                 set1.setFillColor(Color.BLACK);
             }
+
+            //format X axis to represent date
+            XAxis xAxis = lineChart.getXAxis();
+            xAxis.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    String fullDate = ratesList.get((int) value).getEffectiveDate();
+                    return fullDate.substring(5);
+                }
+            });
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);

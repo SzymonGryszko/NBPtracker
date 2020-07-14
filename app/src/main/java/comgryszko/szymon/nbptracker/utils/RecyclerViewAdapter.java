@@ -1,26 +1,22 @@
 package comgryszko.szymon.nbptracker.utils;
-
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.Collections;
+import java.util.List;
 
-import java.util.ArrayList;
 
-import comgryszko.szymon.nbptracker.GoldRate;
+import comgryszko.szymon.nbptracker.api.GoldRate;
 import comgryszko.szymon.nbptracker.R;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private ArrayList<GoldRate> mGoldRates;
+    private List<GoldRate> mGoldRates;
 
-    public RecyclerViewAdapter(ArrayList<GoldRate> goldRates) {
+    public RecyclerViewAdapter(List<GoldRate> goldRates) {
         mGoldRates = goldRates;
     }
 
@@ -43,14 +39,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mGoldRates.size();
     }
 
-    public GoldRate getRateAt(int position) {
+    private GoldRate getRateAt(int position) {
         return mGoldRates.get(position);
+    }
+
+    public void setGoldRatesList(List<GoldRate> goldRatesList) {
+        Collections.reverse(goldRatesList);
+        this.mGoldRates = goldRatesList;
+        notifyDataSetChanged();
     }
 
     static class  ViewHolder extends RecyclerView.ViewHolder{
         private TextView rate, date;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             rate = itemView.findViewById(R.id.text_view_amount);
             date = itemView.findViewById(R.id.text_view_date);

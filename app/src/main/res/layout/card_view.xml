@@ -13,56 +13,63 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:layout_height="match_parent">
+
 
         <ImageView
+            android:id="@+id/gold_picture"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/gold_picture"
-            android:layout_marginLeft="20dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/goldore"
+            />
 
         <RelativeLayout
+            android:id="@+id/text_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:layout_toEndOf="@+id/gold_picture"
+            android:layout_centerInParent="true">
 
+            <RelativeLayout
+                android:id="@+id/amount_currency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
 
+                <TextView
+                    android:id="@+id/text_view_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
 
-        <TextView
-            android:id="@+id/text_view_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/lightred"
-            android:textSize="30sp"
-            android:text="4,987"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/lightred"
+                    android:textSize="30sp" />
 
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:id="@+id/currency"
-            android:layout_toEndOf="@+id/text_view_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:text="@string/pln"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                <TextView
+                    android:id="@+id/currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/text_view_amount"
+                    android:gravity="center_horizontal"
+                    android:text="@string/pln_g"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
 
+            </RelativeLayout>
 
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:id="@+id/text_view_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/text_view_amount"
-            android:text="08/08/2020" />
+            <TextView
+                android:id="@+id/text_view_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amount_currency"
+                android:gravity="center_horizontal" />
         </RelativeLayout>
-
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

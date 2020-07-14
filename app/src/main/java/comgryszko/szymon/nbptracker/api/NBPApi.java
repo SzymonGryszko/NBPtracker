@@ -9,6 +9,9 @@ import retrofit2.http.Path;
 public interface NBPApi {
 
     @GET("{currency}/last/30/?format=json")
-    Call<CurrencyExchangeRates>getRate(@Path("currency") String currency);
+    Call<CurrencyExchangeRates>getCurrencyRate(@Path("currency") String currency);
+
+    @GET("last/{numberOfRecords}/?format=json")
+    Call<List<GoldRate>>getGoldRate(@Path("numberOfRecords") int numberOfRecords);
 
 }

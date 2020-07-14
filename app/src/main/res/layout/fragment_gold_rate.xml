@@ -7,6 +7,14 @@
     tools:context=".GoldRateFragment"
     >
 
+    <TextView
+        android:id="@+id/unable_to_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/unable_to_download_data"
+        android:elevation="10dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_height="match_parent"
         android:layout_width="match_parent"

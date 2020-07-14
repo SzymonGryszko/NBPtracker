@@ -1,4 +1,4 @@
-package comgryszko.szymon.nbptracker;
+package comgryszko.szymon.nbptracker.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
