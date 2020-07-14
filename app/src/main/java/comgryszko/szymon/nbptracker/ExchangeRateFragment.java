@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -52,6 +53,7 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     private TextView mRate, mDate, mForeignCurrency;
     private ProgressBar mProgressBar;
     private LineChart lineChart;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private static final String TAG = "ExchangeRateFragment";
 
     @Nullable
@@ -72,6 +74,15 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
             }
         });
         getRateFromNBPApi(String.valueOf(mForeignCurrency.getText()));
+
+        swipeRefreshLayout = view.findViewById(R.id.refreshExchange);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getRateFromNBPApi(String.valueOf(mForeignCurrency.getText()));
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
         return view;
@@ -153,8 +164,6 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
 
         for (int i = 0; i < ratesListSize; i++) {
             values.add(new Entry((float) i, (float) ratesList.get(i).getMid()
-//                    TODO:represent dates on chart
-
             ));
         }
 
@@ -226,8 +235,7 @@ public class ExchangeRateFragment extends Fragment implements Callback<CurrencyE
     public void onFailure(Call<CurrencyExchangeRates> call, Throwable t) {
         Log.d(TAG, "onFailure: " + t.getMessage());
         mProgressBar.setVisibility(View.INVISIBLE);
-        mRate.setTextSize(12);
-        mRate.setText(R.string.unableToDownload);
+        mRate.setText(null);
         mDate.setText(R.string.unableToDownload);
     }
 }
