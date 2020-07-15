@@ -79,7 +79,7 @@ public class GoldRateFragment extends Fragment implements Callback<List<GoldRate
 
         NBPApi nbpApi = retrofitGoldRate.create(NBPApi.class);
 
-        Call<List<GoldRate>> callGoldRates = nbpApi.getGoldRate(30);
+        Call<List<GoldRate>> callGoldRates = nbpApi.getGoldRate(31);
         callGoldRates.enqueue(this);
     }
 

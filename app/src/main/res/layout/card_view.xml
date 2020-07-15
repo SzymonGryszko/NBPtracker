@@ -21,17 +21,19 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/goldore"
-            />
+            app:srcCompat="@drawable/goldore" />
+
 
         <RelativeLayout
             android:id="@+id/text_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gold_picture"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@+id/difference"
+            android:layout_toEndOf="@+id/gold_picture">
 
             <RelativeLayout
                 android:id="@+id/amount_currency"
@@ -44,7 +46,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/lightred"
                     android:textSize="30sp" />
@@ -53,9 +54,9 @@
                     android:id="@+id/currency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/text_view_amount"
-                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="1dp"
                     android:text="@string/pln_g"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/black"
@@ -67,9 +68,23 @@
                 android:id="@+id/text_view_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/amount_currency"
+                android:layout_below="@+id/amount_currency"
+                android:layout_marginBottom="5dp"
                 android:gravity="center_horizontal" />
+
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/difference"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="viewEnd"
+            android:paddingTop="5dp"
+            android:paddingEnd="15dp"
+            android:textSize="18sp" />
+
     </RelativeLayout>
+
 
 </androidx.cardview.widget.CardView>
